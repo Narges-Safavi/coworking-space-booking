@@ -1,0 +1,38 @@
+export type Space = {
+  id: string;
+  name: string;
+  capacity: number;
+  price: number;
+  description: string;
+};
+
+export const spaces: Space[] = [
+  {
+    id: "1",
+    name: "اتاق جلسات کوچک",
+    capacity: 4,
+    price: 350000,
+    description: "اتاقی آرام و مناسب برای جلسات تیمی کوچک.",
+  },
+  {
+    id: "2",
+    name: "اتاق جلسات بزرگ",
+    capacity: 10,
+    price: 700000,
+    description: "مناسب برای جلسات بزرگ‌تر و ارائه‌های تیمی.",
+  },
+  {
+    id: "3",
+    name: "میز کار مشترک",
+    capacity: 1,
+    price: 150000,
+    description: "یک صندلی در فضای کار اشتراکی برای کار فردی.",
+  },
+  {
+    id: "4",
+    name: "فضای رویداد",
+    capacity: 20,
+    price: 1200000,
+    description: "فضایی وسیع برای برگزاری رویدادها و همایش‌های کوچک.",
+  },
+];
