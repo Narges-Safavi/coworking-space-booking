@@ -13,6 +13,8 @@ export default function ReservationForm({ capacity }: ReservationFormProps) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
+  const today = new Date().toISOString().split("T")[0];
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSuccess(false);
@@ -22,17 +24,28 @@ export default function ReservationForm({ capacity }: ReservationFormProps) {
       return;
     }
 
-    if (guestCount < 1 || guestCount > capacity) {
-      setError(`تعداد نفرات باید بین ۱ تا ${capacity} باشد.`);
+    const selectedDateTime = new Date(`${date}T${time}`);
+    if (selectedDateTime.getTime() < Date.now()) {
+      setError("تاریخ و ساعت انتخاب‌شده نمی‌تواند در گذشته باشد.");
       return;
     }
+
+if (!Number.isInteger(guestCount)) {
+  setError("تعداد نفرات باید عدد صحیح باشد.");
+  return;
+}
+
+if (guestCount < 1 || guestCount > capacity) {
+  setError(`تعداد نفرات باید بین ۱ تا ${capacity} باشد.`);
+  return;
+}
 
     setError("");
     setSuccess(true);
   }
 
   return (
-  <form onSubmit={handleSubmit} noValidate className="mt-6 space-y-4">
+    <form onSubmit={handleSubmit} noValidate className="mt-6 space-y-4">
       <h2 className="text-lg font-semibold">رزرو این فضا</h2>
 
       <div>
@@ -40,6 +53,7 @@ export default function ReservationForm({ capacity }: ReservationFormProps) {
         <input
           type="date"
           value={date}
+          min={today}
           onChange={(e) => setDate(e.target.value)}
           className="w-full rounded-lg border border-zinc-300 px-3 py-2"
         />
@@ -51,7 +65,8 @@ export default function ReservationForm({ capacity }: ReservationFormProps) {
           type="time"
           value={time}
           onChange={(e) => setTime(e.target.value)}
-          className="w-full rounded-lg border border-zinc-300 px-3 py-2"
+         className="block w-full max-w-full min-w-0 text-sm sm:text-base rounded-lg border border-zinc-300 px-3 py-2"
+
         />
       </div>
 
@@ -63,7 +78,7 @@ export default function ReservationForm({ capacity }: ReservationFormProps) {
           onChange={(e) => setGuestCount(Number(e.target.value))}
           min={1}
           max={capacity}
-          className="w-full rounded-lg border border-zinc-300 px-3 py-2"
+        className="block w-full max-w-full min-w-0 text-sm sm:text-base rounded-lg border border-zinc-300 px-3 py-2"
         />
       </div>
 
